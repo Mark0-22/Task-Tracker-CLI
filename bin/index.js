@@ -9,17 +9,20 @@ const secondDes = args[2]; // second argument (e.g. id of task, description of t
 
 // ----- LIST OF TASKS ----- //
 
-if (command === "list") {           // Check if command is "list"
+if (command === "list") {
+  // Check if command is "list"
 
   // ----- List tasks with status "todo" ----- //
   if (firstDes === "todo") {
-    if (fs.existsSync("./tasks.json")) {      // Verify if the tasks file exists
-      fs.readFile("./tasks.json", "utf8", (err, data) => {        // Reading the file
+    if (fs.existsSync("./tasks.json")) {
+      // Verify if the tasks file exists
+      fs.readFile("./tasks.json", "utf8", (err, data) => {
+        // Reading the file
         if (err) {
-          console.log(err);           // Log any error that occur during file reading
+          console.log(err); // Log any error that occur during file reading
           return;
         }
-        let obj = JSON.parse(data);           // Parse the file content as JSON
+        let obj = JSON.parse(data); // Parse the file content as JSON
 
         // Filter tasks that are marked as "todo"
         const todoList = obj.tasks.filter((task) => task.status === "todo");
@@ -36,7 +39,7 @@ if (command === "list") {           // Check if command is "list"
         }
       });
     } else {
-      console.log("Tasks file does not exists!");          // Notify if the tasks file does not exists
+      console.log("Tasks file does not exists!"); // Notify if the tasks file does not exists
     }
   }
 
@@ -64,7 +67,7 @@ if (command === "list") {           // Check if command is "list"
         }
       });
     } else {
-      console.log("Tasks file does not exists!");           // Notify if the tasks file does not exists
+      console.log("Tasks file does not exists!"); // Notify if the tasks file does not exists
     }
   }
 
@@ -125,7 +128,7 @@ if (command === "list") {           // Check if command is "list"
             );
           }
         } else {
-          console.log("There are no tasks!");         // Notify if no tasks are found
+          console.log("There are no tasks!"); // Notify if no tasks are found
         }
       });
     } else {
@@ -134,12 +137,15 @@ if (command === "list") {           // Check if command is "list"
   }
 }
 
-if (command === "add") {                     // Check if command is "list"
-  if (firstDes === undefined) {               // Check if there is description, if not then throws message
+if (command === "add") {
+  // Check if command is "list"
+  if (firstDes === undefined) {
+    // Check if there is description, if not then throws message
     console.log("Missing description");
     return;
   }
-  if (fs.existsSync("./tasks.json")) {        // Verify if the tasks file exists
+  if (fs.existsSync("./tasks.json")) {
+    // Verify if the tasks file exists
     fs.readFile("./tasks.json", "utf8", (err, data) => {
       if (err) {
         console.log(err);
@@ -154,21 +160,24 @@ if (command === "add") {                     // Check if command is "list"
       const allIds = obj.tasks.map((task) => task.id);
       let newId = 1;
 
-                                                  // Checks if "newId" exists in "allIds", if not, that means there is a missing Id to be fullfilled,
-      while (allIds.includes(newId)) {            //  otherwise "newId" increases and repeat until empty Id is found 
+      // Checks if "newId" exists in "allIds", if not, that means there is a missing Id to be fullfilled,
+      //  otherwise "newId" increases and repeat until empty Id is found
+      while (allIds.includes(newId)) {
         newId++;
       }
-      obj.tasks.push({                            // Creates task
+      obj.tasks.push({
+        // Creates task
         id: newId,
         description: firstDes,
         status: "todo",
         createdAt: new Date().toISOString(),
       });
-      obj.tasks.sort((a, b) => a.id - b.id);      // sorting tasks by their's Id
-      const json = JSON.stringify(obj);           // Convert the 'obj' JavaScript object into a JSON string
-      fs.writeFile("./tasks.json", json, () => {});         // Writes task to JSON file (tasks.json)
+      obj.tasks.sort((a, b) => a.id - b.id); // sorting tasks by their's Id
+      const json = JSON.stringify(obj); // Convert the 'obj' JavaScript object into a JSON string
+      fs.writeFile("./tasks.json", json, () => {}); // Writes task to JSON file (tasks.json)
     });
-  } else {                     // if file (tasks.json) doesn't exists, then creates
+  } else {
+    // if file (tasks.json) doesn't exists, then creates
     const obj = {
       tasks: [
         {
@@ -185,11 +194,13 @@ if (command === "add") {                     // Check if command is "list"
 }
 
 if (command === "update") {
-  if (firstDes === undefined) {               // Check if there is Id, if not then throws message
+  if (firstDes === undefined) {
+    // Check if there is Id, if not then throws message
     console.log("Missing Id");
     return;
   }
-  if (secondDes === undefined) {               // Check if there is description, if not then throws message
+  if (secondDes === undefined) {
+    // Check if there is description, if not then throws message
     console.log("Missing description");
     return;
   }
@@ -211,8 +222,8 @@ if (command === "update") {
         return;
       }
 
-      obj.tasks[taskIndex].description = secondDes;                   // Updates description of task
-      obj.tasks[taskIndex].updatedAt = new Date().toISOString();      // Creates "updatedAt" for the task
+      obj.tasks[taskIndex].description = secondDes; // Updates description of task
+      obj.tasks[taskIndex].updatedAt = new Date().toISOString(); // Creates "updatedAt" for the task
       const json = JSON.stringify(obj);
       fs.writeFile("./tasks.json", json, () => {});
     });
@@ -222,7 +233,8 @@ if (command === "update") {
 }
 
 if (command === "delete") {
-  if (firstDes === undefined) {               // Check if there is description, if not then throws message
+  if (firstDes === undefined) {
+    // Check if there is description, if not then throws message
     console.log("Missing Id");
     return;
   }
@@ -269,7 +281,7 @@ if (command === "mark-in-progress") {
       const taskIndex = obj.tasks.findIndex(
         (task) => task.id === Number(firstDes)
       );
-      obj.tasks[taskIndex].status = "in-progress";              // Sets status for the task to "in-progress"
+      obj.tasks[taskIndex].status = "in-progress"; // Sets status for the task to "in-progress"
 
       const json = JSON.stringify(obj);
       fs.writeFile("./tasks.json", json, () => {});
@@ -295,7 +307,7 @@ if (command === "mark-done") {
       const taskIndex = obj.tasks.findIndex(
         (task) => task.id === Number(firstDes)
       );
-      obj.tasks[taskIndex].status = "done";              // Sets status for the task to "done"
+      obj.tasks[taskIndex].status = "done"; // Sets status for the task to "done"
 
       const json = JSON.stringify(obj);
       fs.writeFile("./tasks.json", json, () => {});
