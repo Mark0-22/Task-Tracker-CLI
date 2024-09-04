@@ -1,0 +1,22 @@
+{
+  "name": "task-tracker-cli",
+  "version": "1.0.0",
+  "description": "To-do manager Project",
+  "bin": {
+    "task-cli": "./bin/index.js"
+  },
+  "main": "./bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mark0-22/Task-Tracker-CLI.git"
+  },
+  "author": "Marko Jovicic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mark0-22/Task-Tracker-CLI/issues"
+  },
+  "homepage": "https://github.com/Mark0-22/Task-Tracker-CLI#readme"
+}
